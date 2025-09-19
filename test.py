@@ -273,6 +273,14 @@ while (not done):
     if (validPosibleCharsInput == 0):
         break
 
+    existingLetters = []
+    for list in possibleCharsList:
+        for c in list:
+            if (c != "0" and (c not in existingLetters)):
+                existingLetters.append(c)
+    
+    print(existingLetters)
+
     done = True
 # end while
 
@@ -290,7 +298,18 @@ char5 = createChar5(known, possibleCharsList)
 pattern = re.compile("^" + char1 + char2 + char3 + char4 + char5 + "$")
 
 # Filter words that match
-matches = [w for w in words if pattern.match(w)]
+#matches = [w for w in words if pattern.match(w)]
+
+matches = []
+for w in words:
+    addWord = True
+    for c in existingLetters:
+        if (c not in w):
+            addWord = False
+            break
+    if (pattern.match(w) and addWord):
+        matches.append(w)
+
 
 print(f"Found {len(matches)} matches:")
 print(matches[:20])  # show first 20
